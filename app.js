@@ -6,6 +6,9 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
+var signin = require('./routes/signin');
+var homeNotSignedIn = require('./routes/homeNotSignedIn');
+var homeSignedIn = require('./routes/homeSignedIn');
 var http = require('http');
 var path = require('path');
 
@@ -30,6 +33,9 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/signin', signin.list);
+app.get('/homeNotSignedIn', homeNotSignedIn.list);
+app.get('/homeSignedIn', homeSignedIn.list);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

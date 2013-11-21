@@ -1,0 +1,71 @@
+extends layout
+
+block content
+  p Welcome to Fitness
+
+  ul
+    li aaa
+    li bbbb
+    li
+
+    meta(charset='UTF-8')
+    title Pie Chart with mousemove
+
+  body
+    section
+      div
+        canvas#canvas(width='400', height='300')
+          | Your browser does not support the canvas tag
+      script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
+      script
+        $(document).ready(function() {
+        // initialize some variables for the chart
+        var canvas = $("#canvas")[0];
+        var ctx = $("#canvas")[0].getContext('2d');
+        var data = [200,18,32,95,20,51];
+        var colors = ["#7E3817", "#C35817", "#EE9A4D", "#A0C544", "#348017", "#307D7E"];
+        var center = [canvas.width / 2, canvas.height / 2];
+        var radius = Math.min(canvas.width, canvas.height) / 2;
+        var lastPosition = 0, total = 0;
+        var pieData = [];
+        // total up all the data for chart
+        for (var i in data) { total += data[i]; }
+        // populate arrays for each slice
+        for(var i in data) {
+        pieData[i] = [];
+        pieData[i]['value'] = data[i];
+        pieData[i]['startAngle'] = 2 * Math.PI * lastPosition;
+        pieData[i]['endAngle'] = 2 * Math.PI * (lastPosition + (data[i]/total));
+        lastPosition += data[i]/total;
+        }
+        for(var i = 0; i < data.length; i++)
+        {
+        ctx.beginPath();
+        ctx.moveTo(center[0],center[1]);
+        ctx.arc(center[0],center[1],radius,pieData[i]['startAngle'],pieData[i]['endAngle'],false);
+        ctx.lineTo(center[0],center[1]);
+        ctx.closePath();
+        ctx.fillStyle = colors[i];
+        ctx.fill();
+        }
+        $("#canvas").mousemove(function(e) {
+        var x = Math.floor((e.pageX-$("#canvas").offset().left));
+        var y = Math.floor((e.pageY-$("#canvas").offset().top));
+        // inside the pie chart?
+        var fromCenterX = x - center[0];
+        var fromCenterY = y - center[1];
+        var fromCenter = Math.sqrt(Math.pow(Math.abs(fromCenterX), 2) + Math.pow(Math.abs(fromCenterY), 2 ));
+        if (fromCenter <= radius) {
+        var angle = Math.atan2(fromCenterY, fromCenterX);
+        if (angle < 0) angle = 2 * Math.PI + angle; // normalize
+        for (var slice in pieData) {
+        if (angle >= pieData[slice]['startAngle'] && angle <= pieData[slice]['endAngle']) {
+        $("div.sliceValue").text("The value for the slice is " + pieData[slice]['value']);
+        return;
+        }
+        }
+        }
+        });
+        });
+    .sliceValue
+      | Hover over a slice

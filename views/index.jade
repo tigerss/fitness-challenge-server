@@ -1,9 +1,244 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  p #{title} is the best
 
-  h2= title
-  p title
+
+    h3 Buna, diana! Bine ai venit la #{title}!
+
+        meta(charset='utf-8')
+           meta(name='viewport', content='width=device-width, initial-scale=1.0')
+           meta(name='description', content='')
+           meta(name='author', content='')
+           link(rel='shortcut icon', href='#{pathToAssets}/assets/ico/favicon.png')
+           title Jumbotron Template for Bootstrap
+           //
+              Bootstrap core CSS
+           link(href='#{pathToAssets}/dist/css/bootstrap.css', rel='stylesheet')
+           //
+              Custom styles for this template
+           link(href='#{pathToSelectedTemplateWithinBootstrap}/jumbotron.css', rel='stylesheet')
+           //
+              HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+           //if lt IE 9
+             script(src='#{pathToAssets}/assets/js/html5shiv.js')
+             script(src='#{pathToAssets}/assets/js/respond.min.js')
+         body
+           .navbar.navbar-inverse.navbar-fixed-top
+             .container
+               .navbar-header
+                 button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+                   span.icon-bar
+                   span.icon-bar
+                   span.icon-bar
+                 a.navbar-brand(href='#') Fitness Challenge
+               .navbar-collapse.collapse
+                 ul.nav.navbar-nav
+                   li.active
+                     a(href='#') Home
+                   li
+                     a(href='#signin') Statistics
+                   li
+                     a(href='#contact') Members
+                   li.dropdown
+                     a.dropdown-toggle(href='#', data-toggle='dropdown')
+                       | Workouts
+                       b.caret
+                     ul.dropdown-menu
+                       li
+                         a(href='#') Action
+                       li
+                         a(href='#') Another action
+                       li
+                         a(href='#') Something else here
+                       li.divider
+                       li.dropdown-header Nav header
+                       li
+                         a(href='#') Separated link
+                       li
+                         a(href='#') One more separated link
+                 form.navbar-form.navbar-right
+                   .form-group
+                     input.form-control(type='text', placeholder='Email')
+                   .form-group
+                     input.form-control(type='password', placeholder='Password')
+                   button.btn.btn-success(type='submit') Sign in
+               //
+                 /.navbar-collapse
+
+           &nbsp
+           .row
+               .col-lg-12
+                   &nbsp
+                   h2 Clasament
+                   .table-responsive
+                     table.table.table-hover.tablesorter
+                       thead
+                         tr
+                           th
+                             | Nume
+                             i.fa.fa-sort
+                           th
+                             | Scor
+                             i.fa.fa-sort
+                           th
+                             | Badges
+                             i.fa.fa-sort
+                           th
+                             | Grafic
+                             i.fa.fa-sort
+
+                           th
+                             | Pie
+                             i.fa.fa-sort
+                       tbody
+                       - for (var x = 1; x <= 4; x++)
+                         tr
+                           td #{x}. Diana Miu
+                            br
+                            span.glyphicon.glyphicon-chevron-up  vote up
+                            br
+                            span 12
+                            br
+                            span.glyphicon.glyphicon-chevron-down  vote down
+                           td 1265
+                           td
+                               p
+                                 button.btn.btn-xs.btn-default(type='button') top score
+                                 &nbsp
+                                 button.btn.btn-xs.btn-primary(type='button') 2
+                                 &nbsp
+                                 button.btn.btn-xs.btn-success(type='button') 3
+                                 &nbsp
+                                 button.btn.btn-xs.btn-info(type='button') 4
+                                 &nbsp
+                                 button.btn.btn-xs.btn-warning(type='button') 5
+                                 &nbsp
+                                 button.btn.btn-xs.btn-danger(type='button') 6
+
+                           td
+                                div(id="container#{x}")
+                                    script(defer='defer')
+                                      var secondsInYear = 60 * 60 * 24 * 365;
+                                      // model configuration (data)
+                                      var model = {
+                                      title: 'Example Chart',
+                                      series: [{
+                                      title: 'Line 1',
+                                      points: [
+                                      {x: secondsInYear * 0, y: 7.0},
+                                      {x: secondsInYear * 1, y: 6.9},
+                                      {x: secondsInYear * 2, y: 9.5},
+                                      {x: secondsInYear * 3, y: 14.5},
+                                      {x: secondsInYear * 4, y: 18.2},
+                                      {x: secondsInYear * 5, y: 21.5},
+                                      {x: secondsInYear * 6, y: 25.2},
+                                      {x: secondsInYear * 7, y: 26.5},
+                                      {x: secondsInYear * 8, y: 23.3},
+                                      {x: secondsInYear * 9, y: 18.3},
+                                      {x: secondsInYear * 10, y: 13.9},
+                                      {x: secondsInYear * 11, y: 9.6}
+                                      ]
+                                      },
+                                      {
+                                      title: 'Line 2',
+                                      points: [
+                                      {x: secondsInYear * 0, y: -0.2},
+                                      {x: secondsInYear * 1, y: 0.8},
+                                      {x: secondsInYear * 2, y: 5.7},
+                                      {x: secondsInYear * 3, y: 11.3},
+                                      {x: secondsInYear * 4, y: 17.0},
+                                      {x: secondsInYear * 5, y: 22.0},
+                                      {x: secondsInYear * 6, y: 24.8},
+                                      {x: secondsInYear * 7, y: 24.1},
+                                      {x: secondsInYear * 8, y: 20.1},
+                                      {x: secondsInYear * 9, y: 14.1},
+                                      {x: secondsInYear * 10, y: 8.6},
+                                      {x: secondsInYear * 11, y: 2.5}
+                                      ]
+                                      }]
+                                      };
+                                      // view configuration (styling)
+                                      var view = {
+                                      width: 300,
+                                      height: 150
+                                      };
+                                      // line charts are instantiated with a container DOM element,
+                                      // a model, and a view
+                                      var lineChart = new MeteorCharts.Line({
+                                      container: 'container#{x}',
+                                      model: model,
+                                      view: view
+                                      });
+
+
+                           td
+                                section
+                                      div
+                                        canvas(id="canvas#{x}" width='200', height='150')
+                                          | Your browser does not support the canvas tag
+                                      script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
+                                      script
+                                        $(document).ready(function() {
+                                        // initialize some variables for the chart
+                                        var canvas = $("#canvas#{x}")[0];
+                                        var ctx = $("#canvas#{x}")[0].getContext('2d');
+                                        var data = [95,24,32,95,20,51];
+                                        var colors = ["#7E3817", "#C35817", "#EE9A4D", "#A0C544", "#348017", "#307D7E"];
+                                        var center = [canvas.width / 2, canvas.height / 2];
+                                        var radius = Math.min(canvas.width, canvas.height) / 2;
+                                        var lastPosition = 0, total = 0;
+                                        var pieData = [];
+                                        // total up all the data for chart
+                                        for (var i in data) { total += data[i]; }
+                                        // populate arrays for each slice
+                                        for(var i in data) {
+                                        pieData[i] = [];
+                                        pieData[i]['value'] = data[i];
+                                        pieData[i]['startAngle'] = 2 * Math.PI * lastPosition;
+                                        pieData[i]['endAngle'] = 2 * Math.PI * (lastPosition + (data[i]/total));
+                                        lastPosition += data[i]/total;
+                                        }
+                                        for(var i = 0; i < data.length; i++)
+                                        {
+                                        ctx.beginPath();
+                                        ctx.moveTo(center[0],center[1]);
+                                        ctx.arc(center[0],center[1],radius,pieData[i]['startAngle'],pieData[i]['endAngle'],false);
+                                        ctx.lineTo(center[0],center[1]);
+                                        ctx.closePath();
+                                        ctx.fillStyle = colors[i];
+                                        ctx.fill();
+                                        }
+                                        $("#canvas").mousemove(function(e) {
+                                        var x = Math.floor((e.pageX-$("#canvas").offset().left));
+                                        var y = Math.floor((e.pageY-$("#canvas").offset().top));
+                                        // inside the pie chart?
+                                        var fromCenterX = x - center[0];
+                                        var fromCenterY = y - center[1];
+                                        var fromCenter = Math.sqrt(Math.pow(Math.abs(fromCenterX), 2) + Math.pow(Math.abs(fromCenterY), 2 ));
+                                        if (fromCenter <= radius) {
+                                        var angle = Math.atan2(fromCenterY, fromCenterX);
+                                        if (angle < 0) angle = 2 * Math.PI + angle; // normalize
+                                        for (var slice in pieData) {
+                                        if (angle >= pieData[slice]['startAngle'] && angle <= pieData[slice]['endAngle']) {
+                                        $("div.sliceValue").text("The value for the slice is " + pieData[slice]['value']);
+                                        return;
+                                        }
+                                        }
+                                        }
+                                        });
+                                        });
+                                    .sliceValue
+                                      | Hover over a slice
+
+             hr
+             footer
+               p &copy; Company 2013
+           //
+              /container
+           //
+              Bootstrap core JavaScript
+           //  ==================================================
+           //
+              Placed at the end of the document so the pages load faster
+           script(src='#{pathToAssets}/assets/js/jquery.js')
+           script(src='#{pathToAssets}/dist/js/bootstrap.min.js')
