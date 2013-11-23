@@ -64,7 +64,6 @@ block content
                    button.btn.btn-success(type='submit') Sign in
                //
                  /.navbar-collapse
-
            &nbsp
            .row
                .col-lg-12
@@ -93,15 +92,15 @@ block content
                        tbody
                        - for (var x = 1; x <= 4; x++)
                          tr
-                           td #{x}. Diana Miu
+                           td(width='10%') #{x}. Diana Miu
                             br
                             span.glyphicon.glyphicon-chevron-up  vote up
                             br
                             span 12
                             br
                             span.glyphicon.glyphicon-chevron-down  vote down
-                           td 1265
-                           td
+                           td(width='10%') 1265
+                           td(width='10%')
                                p
                                  button.btn.btn-xs.btn-default(type='button') top score
                                  &nbsp
@@ -115,7 +114,7 @@ block content
                                  &nbsp
                                  button.btn.btn-xs.btn-danger(type='button') 6
 
-                           td
+                           td(width='10%')
                                 div(id="container#{x}")
                                     script(defer='defer')
                                       var secondsInYear = 60 * 60 * 24 * 365;
@@ -159,8 +158,8 @@ block content
                                       };
                                       // view configuration (styling)
                                       var view = {
-                                      width: 300,
-                                      height: 150
+                                      width: 400,
+                                      height: 250
                                       };
                                       // line charts are instantiated with a container DOM element,
                                       // a model, and a view
@@ -169,66 +168,42 @@ block content
                                       model: model,
                                       view: view
                                       });
-
-
                            td
-                                section
-                                      div
-                                        canvas(id="canvas#{x}" width='200', height='150')
-                                          | Your browser does not support the canvas tag
-                                      script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js')
-                                      script
-                                        $(document).ready(function() {
-                                        // initialize some variables for the chart
-                                        var canvas = $("#canvas#{x}")[0];
-                                        var ctx = $("#canvas#{x}")[0].getContext('2d');
-                                        var data = [95,24,32,95,20,51];
-                                        var colors = ["#7E3817", "#C35817", "#EE9A4D", "#A0C544", "#348017", "#307D7E"];
-                                        var center = [canvas.width / 2, canvas.height / 2];
-                                        var radius = Math.min(canvas.width, canvas.height) / 2;
-                                        var lastPosition = 0, total = 0;
-                                        var pieData = [];
-                                        // total up all the data for chart
-                                        for (var i in data) { total += data[i]; }
-                                        // populate arrays for each slice
-                                        for(var i in data) {
-                                        pieData[i] = [];
-                                        pieData[i]['value'] = data[i];
-                                        pieData[i]['startAngle'] = 2 * Math.PI * lastPosition;
-                                        pieData[i]['endAngle'] = 2 * Math.PI * (lastPosition + (data[i]/total));
-                                        lastPosition += data[i]/total;
-                                        }
-                                        for(var i = 0; i < data.length; i++)
-                                        {
-                                        ctx.beginPath();
-                                        ctx.moveTo(center[0],center[1]);
-                                        ctx.arc(center[0],center[1],radius,pieData[i]['startAngle'],pieData[i]['endAngle'],false);
-                                        ctx.lineTo(center[0],center[1]);
-                                        ctx.closePath();
-                                        ctx.fillStyle = colors[i];
-                                        ctx.fill();
-                                        }
-                                        $("#canvas").mousemove(function(e) {
-                                        var x = Math.floor((e.pageX-$("#canvas").offset().left));
-                                        var y = Math.floor((e.pageY-$("#canvas").offset().top));
-                                        // inside the pie chart?
-                                        var fromCenterX = x - center[0];
-                                        var fromCenterY = y - center[1];
-                                        var fromCenter = Math.sqrt(Math.pow(Math.abs(fromCenterX), 2) + Math.pow(Math.abs(fromCenterY), 2 ));
-                                        if (fromCenter <= radius) {
-                                        var angle = Math.atan2(fromCenterY, fromCenterX);
-                                        if (angle < 0) angle = 2 * Math.PI + angle; // normalize
-                                        for (var slice in pieData) {
-                                        if (angle >= pieData[slice]['startAngle'] && angle <= pieData[slice]['endAngle']) {
-                                        $("div.sliceValue").text("The value for the slice is " + pieData[slice]['value']);
-                                        return;
-                                        }
-                                        }
-                                        }
-                                        });
-                                        });
-                                    .sliceValue
-                                      | Hover over a slice
+                               script(type='text/javascript')
+                                 window.onload = function () {
+                                 var chart = new CanvasJS.Chart("chartContainer",
+                                 {
+                                 legend:{
+                                 verticalAlign: "center",
+                                 horizontalAlign: "left",
+                                 fontSize: 20,
+                                 fontFamily: "Helvetica"
+                                 },
+                                 theme: "theme2",
+                                 data: [
+                                 {
+                                 type: "pie",
+                                 indexLabelFontFamily: "Garamond",
+                                 indexLabelFontSize: 20,
+                                 startAngle:-20,
+                                 showInLegend: true,
+                                 toolTipContent:"{label}",
+                                 dataPoints: [
+                                 {  y: 83.24, legendText:"Google", label: "Google 83.3%" },
+                                 {  y: 8.16, legendText:"Yahoo!", label: "Yahoo! 8.16%" },
+                                 {  y: 4.67, legendText:"Bing", label: "Bing 4.67%" },
+                                 {  y: 1.67, legendText:"Baidu" , label: "Baidu 1.67%"},
+                                 {  y: 0.98, legendText:"Others" , label: "Others .98%"}
+                                 ]
+                                 }
+                                 ]
+                                 });
+                                 chart.render();
+                                 }
+                               body
+                                 #chartContainer(style='height: 300px; width: 100%;')
+
+
 
              hr
              footer
