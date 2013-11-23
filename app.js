@@ -6,6 +6,7 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
+var dbHelper = require('./routes/dbhelper');
 var signin = require('./routes/signin');
 var homeNotSignedIn = require('./routes/homeNotSignedIn');
 var homeSignedIn = require('./routes/homeSignedIn');
@@ -36,6 +37,7 @@ app.get('/users', user.list);
 app.get('/signin', signin.list);
 app.get('/homeNotSignedIn', homeNotSignedIn.list);
 app.get('/homeSignedIn', homeSignedIn.list);
+app.get('/leaderboard', dbHelper.scores);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
