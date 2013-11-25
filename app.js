@@ -38,6 +38,10 @@ app.get('/signin', signin.list);
 app.get('/homeNotSignedIn', homeNotSignedIn.list);
 app.get('/homeSignedIn', homeSignedIn.list);
 app.get('/leaderboard', dbHelper.scores);
+app.post('/test_post', function (req, res) {
+    console.log(JSON.stringify(req.body));
+    res.end('{"success":"true"}');
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
