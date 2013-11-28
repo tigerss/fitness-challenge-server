@@ -90,16 +90,16 @@ block content
                              | Pie
                              i.fa.fa-sort
                        tbody
-                       - for (var x = 1; x <= #{data} ; x++)
+                       - for (var x = length-1; x >=0; x--)
                          tr
-                           td(width='10%') #{x}. Diana Miu
+                           td(width='10%') #{length-x}. #{data[x].value}
                             br
-                            span.glyphicon.glyphicon-chevron-up  vote up
+                            span.glyphicon.glyphicon-chevron-up
                             br
                             span 12
                             br
-                            span.glyphicon.glyphicon-chevron-down  vote down
-                           td(width='10%') 1265
+                            span.glyphicon.glyphicon-chevron-down
+                           td(width='10%') #{data[x].key}
                            td(width='10%')
                                p
                                  button.btn.btn-xs.btn-default(type='button') top score
@@ -113,6 +113,45 @@ block content
                                  button.btn.btn-xs.btn-warning(type='button') 5
                                  &nbsp
                                  button.btn.btn-xs.btn-danger(type='button') 6
+
+                           td
+                              script(type='text/javascript')
+                                window.onload = function () {
+                                  var chart = new CanvasJS.Chart("chartContainer#{x}",
+                                  {
+                                  title:{
+                                  text: "Desktop Search Engine Market Share, Dec-2012"
+                                  },
+                                  legend:{
+                                  verticalAlign: "center",
+                                  horizontalAlign: "left",
+                                  fontSize: 20,
+                                  fontFamily: "Helvetica"
+                                  },
+                                  theme: "theme2",
+                                  data: [
+                                  {
+                                  type: "pie",
+                                  indexLabelFontFamily: "Garamond",
+                                  indexLabelFontSize: 20,
+                                  startAngle:-20,
+                                  showInLegend: true,
+                                  toolTipContent:"{label}",
+                                  dataPoints: [
+                                  {  y: 83.24, legendText:"Google", label: "Google 83.3%" },
+                                  {  y: 8.16, legendText:"Yahoo!", label: "Yahoo! 8.16%" },
+                                  {  y: 4.67, legendText:"Bing", label: "Bing 4.67%" },
+                                  {  y: 1.67, legendText:"Baidu" , label: "Baidu 1.67%"},
+                                  {  y: 0.98, legendText:"Others" , label: "Others .98%"}
+                                  ]
+                                  }
+                                  ]
+                                  });
+                                  chart.render();
+                                  }
+                                  // body
+                              // #chartContainer4(style='height: 300px; width: 100%;')
+                              div(id="chartContainer#{x}", class="canvasjs-chart-container", style="height: 300px; width: 100%;")
 
                            td(width='10%')
                                 div(id="container#{x}")
@@ -158,8 +197,8 @@ block content
                                       };
                                       // view configuration (styling)
                                       var view = {
-                                      width: 400,
-                                      height: 250
+                                      width: 300,
+                                      height: 150
                                       };
                                       // line charts are instantiated with a container DOM element,
                                       // a model, and a view
@@ -168,40 +207,6 @@ block content
                                       model: model,
                                       view: view
                                       });
-                           td
-                               script(type='text/javascript')
-                                 window.onload = function () {
-                                 var chart = new CanvasJS.Chart("chartContainer",
-                                 {
-                                 legend:{
-                                 verticalAlign: "center",
-                                 horizontalAlign: "left",
-                                 fontSize: 20,
-                                 fontFamily: "Helvetica"
-                                 },
-                                 theme: "theme2",
-                                 data: [
-                                 {
-                                 type: "pie",
-                                 indexLabelFontFamily: "Garamond",
-                                 indexLabelFontSize: 20,
-                                 startAngle:-20,
-                                 showInLegend: true,
-                                 toolTipContent:"{label}",
-                                 dataPoints: [
-                                 {  y: 83.24, legendText:"Google", label: "Google 83.3%" },
-                                 {  y: 8.16, legendText:"Yahoo!", label: "Yahoo! 8.16%" },
-                                 {  y: 4.67, legendText:"Bing", label: "Bing 4.67%" },
-                                 {  y: 1.67, legendText:"Baidu" , label: "Baidu 1.67%"},
-                                 {  y: 0.98, legendText:"Others" , label: "Others .98%"}
-                                 ]
-                                 }
-                                 ]
-                                 });
-                                 chart.render();
-                                 }
-                               body
-                                 #chartContainer(style='height: 300px; width: 100%;')
 
 
 

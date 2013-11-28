@@ -16,7 +16,9 @@ exports.index = function(req, res){
               console.log(chunk);
               var jsonData = JSON.parse(chunk);
               var rows = jsonData.rows;
-              res.render('index', { title: 'FitnessChallenge', data: rows });
+              console.log(rows.length);
+              res.render('index', { title: 'FitnessChallenge', data: rows, length: rows.length});
+
           });
       }).on('error', function(e) {
         console.log('problem with request: ' + e.message);
