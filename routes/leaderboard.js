@@ -1,7 +1,7 @@
-var dbHelper = require('dbhelper');
+var dbHelper = require('./dbhelper');
 
 exports.leaderboard = function(req, res) {
-    function callback(response) {
+    var callback = function (response) {
         console.log('STATUS: ' + response.statusCode);
         console.log('HEADERS: ' + JSON.stringify(response.headers));
         console.log('BODY: ');
@@ -10,10 +10,11 @@ exports.leaderboard = function(req, res) {
             console.log(chunk);
             var rows = chunk.rows;
         });
-        res.render('leaderboard');
-    }
+        res.end();
+    };
 //    .on('error', function(e) {
 //        console.log('problem with request: ' + e.message);
 //    });
-    dbHelper.scores(callback);
+    dbHelper.leaderboard(callback);
+    //res.render('index');
 }
