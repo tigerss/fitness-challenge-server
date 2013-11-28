@@ -7,6 +7,7 @@ var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
 var dbHelper = require('./routes/dbhelper');
+var leaderboard = require('./routes/leaderboard');
 var signin = require('./routes/signin');
 var homeNotSignedIn = require('./routes/homeNotSignedIn');
 var homeSignedIn = require('./routes/homeSignedIn');
@@ -37,7 +38,7 @@ app.get('/users', user.list);
 app.get('/signin', signin.list);
 app.get('/homeNotSignedIn', homeNotSignedIn.list);
 app.get('/homeSignedIn', homeSignedIn.list);
-app.get('/leaderboard', dbHelper.scores);
+app.get('/leaderboard', leaderboard.leaderboard);
 app.post('/test_post', function (req, res) {
     console.log(JSON.stringify(req.body));
     res.end('{"success":"true"}');

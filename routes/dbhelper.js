@@ -12,5 +12,9 @@ exports.scores = function (req, res) {
         });
     }).on('error', function(e) {
             console.log('problem with request: ' + e.message);
-        });
+    });
 };
+
+exports.leaderboard = function(callback) {
+    http.get('http://hendeptycleystordifteric:3WUW8OoJhRVboQjXuBeHmiuK@implementer.cloudant.com/fitnessathome/_design/views/_view/leaderboard?reduce=false&include_docs=true', callback);
+}
