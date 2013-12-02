@@ -51,6 +51,7 @@ function insertInCloudant(object) {
 for (var userIndex in usernames) {
     var fitnessUser = new Object();
     fitnessUser.name = usernames[userIndex];
+    fitnessUser.artificial = true;
     fitnessUser.workouts = new Array();
     for (var index = 0; index < 5; index++) {
         var workout = new Object();
