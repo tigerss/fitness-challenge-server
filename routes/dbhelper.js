@@ -7,7 +7,7 @@ var CloudantConstants = {
     viewUrl : this.baseUrl + this.viewUrl
 }
 
-exports.scores = function (req, res) {
+var scores = function (req, res) {
     http.get('http://hendeptycleystordifteric:3WUW8OoJhRVboQjXuBeHmiuK@implementer.cloudant.com/fitnessathome/_design/views/_view/sorted_scores?reduce=false&include_docs=true',function (response) {
         console.log('STATUS: ' + response.statusCode);
         console.log('HEADERS: ' + JSON.stringify(response.headers));
@@ -22,7 +22,7 @@ exports.scores = function (req, res) {
     });
 };
 
-exports.leaderboard = function(callback) {
+var leaderboard = function(callback) {
     http.get(CloudantConstants.baseUrl + '/_design/views/_view/leaderboard?reduce=false&include_docs=true', callback);
 }
 
@@ -126,6 +126,8 @@ function insertInCloudant(object, cb) {
 }
 
 module.exports = {
+    scores: scores,
+    leaderboard: leaderboard,
     voteUp : voteUp,
     voteDown : voteDown,
     getUserByKey: getUserByKey
