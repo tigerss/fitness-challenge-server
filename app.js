@@ -44,6 +44,23 @@ app.post('/test_post', function (req, res) {
     res.end('{"success":"true"}');
 });
 
+app.post('/voteup', function(req, res) {
+    var userKey = req.body.key;
+    dbHelper.voteUp(userKey);
+    res.end();
+});
+app.post('/votedown', function(req, res) {
+    var userKey = req.body.key;
+    dbHelper.voteUp(userKey);
+    res.end();
+});
+app.get('/user/:key', function(req, res) {
+    var key = req.params.key;
+    dbHelper.getUserByKey(key, function(user) {
+       res.json(user);
+    });
+})
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
