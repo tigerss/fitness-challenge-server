@@ -17,28 +17,39 @@ block content
       script(src='#{pathToAssets}/assets/js/html5shiv.js')
       script(src='#{pathToAssets}/assets/js/respond.min.js')
   body
-    .container
-     h1 Progress bars
-                          .progress
-                                     .progress-bar.progress-bar-success(style='width: 35%;')
-                                       span.sr-only 35% Complete (success)
-      form.form-signin
-        h2.form-signin-heading Please sign in
-        input.form-control(type='text', placeholder='Email address', autofocus='autofocus')
-        input.form-control(type='password', placeholder='Password')
-        label.checkbox
-          input(type='checkbox', value='remember-me')
-          | Remember me
-        button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
-
-
-    // /container
-    //
-
-     h1 Progress bars
-                      .progress
-                                 .progress-bar.progress-bar-success(style='width: 35%;')
-                                   span.sr-only 35% Complete (success)
-       Bootstrap core JavaScript
-    //================================================== 
-    // Placed at the end of the document so the pages load faster
+   script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js')
+   script(src='http://static.pureexample.com/js/flot/excanvas.min.js')
+   script(src='http://static.pureexample.com/js/flot/jquery.flot.min.js')
+   script(src='http://static.pureexample.com/js/flot/jquery.flot.pie.min.js')
+   //
+      CSS
+   style(type='text/css')
+     #flotcontainer {
+     width: 600px;
+     height: 200px;
+     text-align: left;
+     }
+   //
+      Javascript
+   script(type='text/javascript')
+     $(function () {
+     var data = [
+     {label: "data1", data:10},
+     {label: "data2", data: 20},
+     {label: "data3", data: 30},
+     {label: "data4", data: 40},
+     {label: "data5", data: 50},
+     {label: "data6", data: 60},
+     {label: "data7", data: 70}
+     ];
+     var options = {
+     series: {
+     pie: {show: true}
+     }
+     };
+     $.plot($("#flotcontainer"), data, options);
+     });
+   //
+      HTML
+   #legendPlaceholder
+   #flotcontainer

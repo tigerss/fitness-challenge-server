@@ -3,7 +3,7 @@ extends layout
 block content
 
 
-    h3 Buna, diana! Bine ai venit la #{title}!
+    h3 Hello! Welcome to #{title}!
 
         meta(charset='utf-8')
            meta(name='viewport', content='width=device-width, initial-scale=1.0')
@@ -56,12 +56,12 @@ block content
                          a(href='#') Separated link
                        li
                          a(href='#') One more separated link
-                 form.navbar-form.navbar-right
-                   .form-group
-                     input.form-control(type='text', placeholder='Email')
-                   .form-group
-                     input.form-control(type='password', placeholder='Password')
-                   button.btn.btn-success(type='submit') Sign in
+               //  form.navbar-form.navbar-right
+               //    .form-group
+               //      input.form-control(type='text', placeholder='Email')
+               //    .form-group
+               //      input.form-control(type='password', placeholder='Password')
+               //    button.btn.btn-success(type='submit') Sign in
                //
                  /.navbar-collapse
            &nbsp
@@ -74,20 +74,20 @@ block content
                        thead
                          tr
                            th
-                             | Nume
+                             | Name
                              i.fa.fa-sort
                            th
-                             | Scor
+                             | Score
                              i.fa.fa-sort
                            th
                              | Badges
                              i.fa.fa-sort
                            th
-                             | Grafic
+                             | Pie
                              i.fa.fa-sort
 
                            th
-                             | Pie
+                             | Graphic
                              i.fa.fa-sort
                        tbody
                        - for (var x = length-1; x >=0; x--)
@@ -115,101 +115,75 @@ block content
                                  button.btn.btn-xs.btn-danger(type='button') 6
 
                            td
-                              script(type='text/javascript')
-                                window.onload = function () {
-                                  var chart = new CanvasJS.Chart("chartContainer#{x}",
-                                  {
-                                  title:{
-                                  text: "Desktop Search Engine Market Share, Dec-2012"
-                                  },
-                                  legend:{
-                                  verticalAlign: "center",
-                                  horizontalAlign: "left",
-                                  fontSize: 20,
-                                  fontFamily: "Helvetica"
-                                  },
-                                  theme: "theme2",
-                                  data: [
-                                  {
-                                  type: "pie",
-                                  indexLabelFontFamily: "Garamond",
-                                  indexLabelFontSize: 20,
-                                  startAngle:-20,
-                                  showInLegend: true,
-                                  toolTipContent:"{label}",
-                                  dataPoints: [
-                                  {  y: 83.24, legendText:"Google", label: "Google 83.3%" },
-                                  {  y: 8.16, legendText:"Yahoo!", label: "Yahoo! 8.16%" },
-                                  {  y: 4.67, legendText:"Bing", label: "Bing 4.67%" },
-                                  {  y: 1.67, legendText:"Baidu" , label: "Baidu 1.67%"},
-                                  {  y: 0.98, legendText:"Others" , label: "Others .98%"}
-                                  ]
-                                  }
-                                  ]
-                                  });
-                                  chart.render();
-                                  }
-                                  // body
-                              // #chartContainer4(style='height: 300px; width: 100%;')
-                              div(id="chartContainer#{x}", class="canvasjs-chart-container", style="height: 300px; width: 100%;")
+                               script(type='text/javascript')
+                                    window.onload = function () {
+                                    var chart = new CanvasJS.Chart("chartContainer",
+                                    {
+                                    title:{
+                                    text: ""
+                                    },
+                                    data: [
+                                    {
+                                    type: "pie",
+                                    showInLegend: true,
+                                    dataPoints: dataPoints: [
+                                    {  y: #{data[x].doc.workouts[0].exercises[0].reps, legendText:"Ex1", indexLabel: "" },
+                                    {  y: #{data[x].doc.workouts[0].exercises[1].reps, legendText:"Ex2", indexLabel: "" },
+                                    {  y: #{data[x].doc.workouts[0].exercises[2].reps, legendText:"Ex3", indexLabel: "" },
+                                    {  y: #{data[x].doc.workouts[0].exercises[3].reps, legendText:"Ex4", indexLabel: "" },
+                                    {  y: #{data[x].doc.workouts[0].exercises[4].reps, legendText:"Ex5", indexLabel: "" }
+                                    ]
+                                    }
+                                    ]
+                                    });
+                                    chart.render();
+                                    }
+                                  body
+                                     #chartContainer(style='height: 200px; width: 100%;')
 
-                           td(width='10%')
-                                div(id="container#{x}")
-                                    script(defer='defer')
-                                      var secondsInYear = 60 * 60 * 24 * 365;
-                                      // model configuration (data)
-                                      var model = {
-                                      title: 'Example Chart',
-                                      series: [{
-                                      title: 'Line 1',
-                                      points: [
-                                      {x: secondsInYear * 0, y: 7.0},
-                                      {x: secondsInYear * 1, y: 6.9},
-                                      {x: secondsInYear * 2, y: 9.5},
-                                      {x: secondsInYear * 3, y: 14.5},
-                                      {x: secondsInYear * 4, y: 18.2},
-                                      {x: secondsInYear * 5, y: 21.5},
-                                      {x: secondsInYear * 6, y: 25.2},
-                                      {x: secondsInYear * 7, y: 26.5},
-                                      {x: secondsInYear * 8, y: 23.3},
-                                      {x: secondsInYear * 9, y: 18.3},
-                                      {x: secondsInYear * 10, y: 13.9},
-                                      {x: secondsInYear * 11, y: 9.6}
-                                      ]
-                                      },
-                                      {
-                                      title: 'Line 2',
-                                      points: [
-                                      {x: secondsInYear * 0, y: -0.2},
-                                      {x: secondsInYear * 1, y: 0.8},
-                                      {x: secondsInYear * 2, y: 5.7},
-                                      {x: secondsInYear * 3, y: 11.3},
-                                      {x: secondsInYear * 4, y: 17.0},
-                                      {x: secondsInYear * 5, y: 22.0},
-                                      {x: secondsInYear * 6, y: 24.8},
-                                      {x: secondsInYear * 7, y: 24.1},
-                                      {x: secondsInYear * 8, y: 20.1},
-                                      {x: secondsInYear * 9, y: 14.1},
-                                      {x: secondsInYear * 10, y: 8.6},
-                                      {x: secondsInYear * 11, y: 2.5}
-                                      ]
-                                      }]
-                                      };
-                                      // view configuration (styling)
-                                      var view = {
-                                      width: 300,
-                                      height: 150
-                                      };
-                                      // line charts are instantiated with a container DOM element,
-                                      // a model, and a view
-                                      var lineChart = new MeteorCharts.Line({
-                                      container: 'container#{x}',
-                                      model: model,
-                                      view: view
-                                      });
 
 
 
+                           td(width='10%')
+                               div(id="container#{x}")
+                                   script(defer='defer')
+                                     //var secondsInYear = #{data[x].doc.workouts[0].startTime};
+                                     // model configuration (data)
+                                     //var workout = new Object();
+                                     //var listOfWorkouts = new Array();
+                                     //var lengthWorkout = #{data[x].doc.workouts.length};
+                                     //var jsonObj = [];
+                                     var model = {
+                                     title: '',
+                                     series: [{
+                                     title: 'Score',
+                                     points: [
+                                     {x: #{data[x].doc.workouts[0].endTime}, y: #{data[x].doc.workouts[0].exercises[0].reps} + #{data[x].doc.workouts[0].exercises[1].reps}
+                                      + #{data[x].doc.workouts[0].exercises[2].reps} + #{data[x].doc.workouts[0].exercises[3].reps} + #{data[x].doc.workouts[0].exercises[4].reps}},
+                                     {x: #{data[x].doc.workouts[1].endTime}, y: #{data[x].doc.workouts[1].exercises[0].reps} + #{data[x].doc.workouts[1].exercises[1].reps}
+                                      + #{data[x].doc.workouts[1].exercises[2].reps} + #{data[x].doc.workouts[1].exercises[3].reps} + #{data[x].doc.workouts[1].exercises[4].reps}},
+                                     {x: #{data[x].doc.workouts[2].endTime}, y: #{data[x].doc.workouts[2].exercises[0].reps} + #{data[x].doc.workouts[2].exercises[1].reps}
+                                      + #{data[x].doc.workouts[2].exercises[2].reps} + #{data[x].doc.workouts[2].exercises[3].reps} + #{data[x].doc.workouts[2].exercises[4].reps}},
+                                     {x: #{data[x].doc.workouts[3].endTime}, y: #{data[x].doc.workouts[3].exercises[0].reps} + #{data[x].doc.workouts[3].exercises[1].reps}
+                                      + #{data[x].doc.workouts[3].exercises[2].reps} + #{data[x].doc.workouts[3].exercises[3].reps} + #{data[x].doc.workouts[3].exercises[4].reps}},
+                                     {x: #{data[x].doc.workouts[4].endTime}, y: #{data[x].doc.workouts[4].exercises[0].reps} + #{data[x].doc.workouts[4].exercises[1].reps}
+                                      + #{data[x].doc.workouts[4].exercises[2].reps} + #{data[x].doc.workouts[4].exercises[3].reps} + #{data[x].doc.workouts[4].exercises[4].reps}}
+                                     ]
+                                     }
+                                     ]
+                                     };
+                                     // view configuration (styling)
+                                     var view = {
+                                     width: 300,
+                                     height: 150
+                                     };
+                                     // line charts are instantiated with a container DOM element,
+                                     // a model, and a view
+                                     var lineChart = new MeteorCharts.Line({
+                                     container: 'container#{x}',
+                                     model: model,
+                                     view: view
+                                     });
              hr
              footer
                p &copy; Company 2013
@@ -220,5 +194,5 @@ block content
            //  ==================================================
            //
               Placed at the end of the document so the pages load faster
-           // script(src='#{pathToAssets}/assets/js/jquery.js')
-           // script(src='#{pathToAssets}/dist/js/bootstrap.min.js')
+           script(src='#{pathToAssets}/assets/js/jquery.js')
+           script(src='#{pathToAssets}/dist/js/bootstrap.min.js')
