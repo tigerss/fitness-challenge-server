@@ -33,8 +33,9 @@ block content
       Javascript
    script(type='text/javascript')
      $(function () {
+     for(var i=1;i<6;i++) {
      var data = [
-     {label: "data1", data:10},
+     {label: "data1", data: #{data[0].key}},
      {label: "data2", data: 20},
      {label: "data3", data: 30},
      {label: "data4", data: 40},
@@ -42,6 +43,7 @@ block content
      {label: "data6", data: 60},
      {label: "data7", data: 70}
      ];
+     }
      var options = {
      series: {
      pie: {show: true}

@@ -56,12 +56,12 @@ block content
                          a(href='#') Separated link
                        li
                          a(href='#') One more separated link
-               //  form.navbar-form.navbar-right
-               //    .form-group
-               //      input.form-control(type='text', placeholder='Email')
-               //    .form-group
-               //      input.form-control(type='password', placeholder='Password')
-               //    button.btn.btn-success(type='submit') Sign in
+                 form.navbar-form.navbar-right
+                   .form-group
+                     input.form-control(type='text', placeholder='Email')
+                   .form-group
+                     input.form-control(type='password', placeholder='Password')
+                   button.btn.btn-success(type='submit') Sign in
                //
                  /.navbar-collapse
            &nbsp
@@ -96,7 +96,7 @@ block content
                             br
                             span.glyphicon.glyphicon-chevron-up
                             br
-                            span 12
+                            span #{x-5}
                             br
                             span.glyphicon.glyphicon-chevron-down
                            td(width='10%') #{data[x].key}
@@ -115,60 +115,56 @@ block content
                                  button.btn.btn-xs.btn-danger(type='button') 6
 
                            td
-                               script(type='text/javascript')
-                                    window.onload = function () {
-                                    var chart = new CanvasJS.Chart("chartContainer",
-                                    {
-                                    title:{
-                                    text: ""
-                                    },
-                                    data: [
-                                    {
-                                    type: "pie",
-                                    showInLegend: true,
-                                    dataPoints: dataPoints: [
-                                    {  y: #{data[x].doc.workouts[0].exercises[0].reps, legendText:"Ex1", indexLabel: "" },
-                                    {  y: #{data[x].doc.workouts[0].exercises[1].reps, legendText:"Ex2", indexLabel: "" },
-                                    {  y: #{data[x].doc.workouts[0].exercises[2].reps, legendText:"Ex3", indexLabel: "" },
-                                    {  y: #{data[x].doc.workouts[0].exercises[3].reps, legendText:"Ex4", indexLabel: "" },
-                                    {  y: #{data[x].doc.workouts[0].exercises[4].reps, legendText:"Ex5", indexLabel: "" }
-                                    ]
+                                style(type='text/css')
+                                    #flotcontainer#{x} {
+                                    width: 450px;
+                                    height: 150px;
+                                    text-align: left;
                                     }
-                                    ]
+                                  //
+                                     Javascript
+                                  script(type='text/javascript')
+                                    $(function () {
+                                    var workoutsLength = #{data[x].doc.workouts.length};
+                                    for(var i=0; i<workoutsLength; i++) {
+                                    var data = [
+                                    {label: "Ex1", data: #{data[x].doc.workouts[0].exercises[0].reps}},
+                                    {label: "Ex2", data: #{data[x].doc.workouts[0].exercises[1].reps}},
+                                    {label: "Ex3", data: #{data[x].doc.workouts[0].exercises[2].reps}},
+                                    {label: "Ex4", data: #{data[x].doc.workouts[0].exercises[3].reps}},
+                                    {label: "Ex5", data: #{data[x].doc.workouts[0].exercises[4].reps}}
+                                    ];
+                                    }
+                                    var options = {
+                                    series: {
+                                    pie: {show: true}
+                                    }
+                                    };
+                                    $.plot($("#flotcontainer#{x}"), data, options);
                                     });
-                                    chart.render();
-                                    }
-                                  body
-                                     #chartContainer(style='height: 200px; width: 100%;')
-
-
-
+                                  //
+                                     HTML
+                                  #legendPlaceholder
+                                  div(id="flotcontainer#{x}")
 
                            td(width='10%')
                                div(id="container#{x}")
                                    script(defer='defer')
-                                     //var secondsInYear = #{data[x].doc.workouts[0].startTime};
-                                     // model configuration (data)
-                                     //var workout = new Object();
-                                     //var listOfWorkouts = new Array();
-                                     //var lengthWorkout = #{data[x].doc.workouts.length};
-                                     //var jsonObj = [];
+                                     var jsonObj = [];
+                                     var workoutsLength = #{data[x].doc.workouts.length};
+                                     for(var k=0; k<workoutsLength; k++) {
+                                       var exercisesLength = #{data[x].doc.workouts[0].exercises.length};
+                                       var sum = 0;
+                                       for(var l=0; l<exercisesLength; l++){
+                                       sum += #{data[x].doc.workouts[0].exercises[0].reps};
+                                       }
+                                       jsonObj.push({x: #{data[x].doc.workouts[0].endTime}, y:sum});
+                                     }
                                      var model = {
                                      title: '',
                                      series: [{
                                      title: 'Score',
-                                     points: [
-                                     {x: #{data[x].doc.workouts[0].endTime}, y: #{data[x].doc.workouts[0].exercises[0].reps} + #{data[x].doc.workouts[0].exercises[1].reps}
-                                      + #{data[x].doc.workouts[0].exercises[2].reps} + #{data[x].doc.workouts[0].exercises[3].reps} + #{data[x].doc.workouts[0].exercises[4].reps}},
-                                     {x: #{data[x].doc.workouts[1].endTime}, y: #{data[x].doc.workouts[1].exercises[0].reps} + #{data[x].doc.workouts[1].exercises[1].reps}
-                                      + #{data[x].doc.workouts[1].exercises[2].reps} + #{data[x].doc.workouts[1].exercises[3].reps} + #{data[x].doc.workouts[1].exercises[4].reps}},
-                                     {x: #{data[x].doc.workouts[2].endTime}, y: #{data[x].doc.workouts[2].exercises[0].reps} + #{data[x].doc.workouts[2].exercises[1].reps}
-                                      + #{data[x].doc.workouts[2].exercises[2].reps} + #{data[x].doc.workouts[2].exercises[3].reps} + #{data[x].doc.workouts[2].exercises[4].reps}},
-                                     {x: #{data[x].doc.workouts[3].endTime}, y: #{data[x].doc.workouts[3].exercises[0].reps} + #{data[x].doc.workouts[3].exercises[1].reps}
-                                      + #{data[x].doc.workouts[3].exercises[2].reps} + #{data[x].doc.workouts[3].exercises[3].reps} + #{data[x].doc.workouts[3].exercises[4].reps}},
-                                     {x: #{data[x].doc.workouts[4].endTime}, y: #{data[x].doc.workouts[4].exercises[0].reps} + #{data[x].doc.workouts[4].exercises[1].reps}
-                                      + #{data[x].doc.workouts[4].exercises[2].reps} + #{data[x].doc.workouts[4].exercises[3].reps} + #{data[x].doc.workouts[4].exercises[4].reps}}
-                                     ]
+                                     points: jsonObj
                                      }
                                      ]
                                      };
@@ -194,5 +190,5 @@ block content
            //  ==================================================
            //
               Placed at the end of the document so the pages load faster
-           script(src='#{pathToAssets}/assets/js/jquery.js')
-           script(src='#{pathToAssets}/dist/js/bootstrap.min.js')
+           script(src='#{pathToAssets}/assets/js/jquery.js').
+           script(src='#{pathToAssets}/dist/js/bootstrap.min.js').
