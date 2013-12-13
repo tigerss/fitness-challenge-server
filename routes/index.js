@@ -7,24 +7,6 @@ var http = require('http');
 var dbHelper = require('./dbhelper');
 
 exports.index = function(req, res){
-//  http.get('http://hendeptycleystordifteric:3WUW8OoJhRVboQjXuBeHmiuK@implementer.cloudant.com/fitnessathome/_design/views/_view/sorted_scores?reduce=false&include_docs=true',
-//      function (response) {
-//          console.log('STATUS: ' + response.statusCode);
-//          console.log('HEADERS: ' + JSON.stringify(response.headers));
-//          console.log('BODY: ');
-//          response.setEncoding('utf8');
-//          response.on('data', function (chunk) {
-//              console.log(chunk);
-//              var jsonData = JSON.parse(chunk);
-//              var rows = jsonData.rows;
-//              console.log(rows.length);
-//              res.render('index', { title: 'FitnessChallenge', data: rows, length: rows.length});
-//
-//          });
-//      }).on('error', function(e) {
-//        console.log('problem with request: ' + e.message);
-//    });
-
     var callback = function (response) {
         var completeData = '';
         console.log('STATUS: ' + response.statusCode);
@@ -42,35 +24,46 @@ exports.index = function(req, res){
                 var rows = jsonData.rows;
 
 //               Se iau datele pentru grafic
-                var jsonObj = {};
-                for (var i = 0; i < rows.length; i++) {
-                    var docData = rows[i].doc;
-                    jsonObj = [];
-                    for (var j = 0; j < rows[i].doc.workouts.length; j++) {
-                        if(undefined == docData.workouts[j])
-                        {
+                for (var indexRow = 0; indexRow < rows.length; indexRow++) {
+                    var docData = rows[indexRow].doc;
+                    docData.workoutsChartData = [];
+                    for (var indexWorkout = 0; indexWorkout < docData.workouts.length; indexWorkout++) {
+                        var currentWorkout = docData.workouts[indexWorkout];
+                        if(!currentWorkout) {
+                            docData.workoutsChartData.push({x: 0, y: 0});
+                            currentWorkout.pieData.push([{label: "n/a", data: 0}]);
                             continue;
                         }
-                        jsonObj.push({
-                            x: rows[i].doc.workouts[0].endTime,
+
+                        var totalReps = 0;
+                        var exercises = currentWorkout.exercises;
+                        currentWorkout.pieData = [];
+                        for (var indexExercise = 0; indexExercise < exercises.length; indexExercise++) {
+                            var currentExercise = currentWorkout.exercises[indexExercise];
+                            currentWorkout.pieData.push({label: currentExercise.name, data: currentExercise.reps});
+                            totalReps += currentExercise.reps;
+                        }
+
+                        docData.workoutsChartData.push({
+                            x: currentWorkout.endTime,
 //                            y: rows[i].doc.workouts[j].exercises[0].reps + rows[i].doc.workouts[j].exercises[1].reps + rows[i].doc.workouts[j].exercises[2].reps +
 //                                rows[i].doc.workouts[j].exercises[3].reps + rows[i].doc.workouts[j].exercises[4].reps
-                            y: j
+                            y: totalReps
                         });
-                        var l = rows[i].doc.workouts.length;
-                        console.log('l ' +l);
+
+//                        var l = rows[i].doc.workouts.length;
+//                        console.log('l ' +l);
 
                     }
 
                 }
-                console.log(jsonObj);
+                console.log(docData.workoutsChartData);
                 console.log(rows.length);
 //                if(undefined != docData.workouts[0])
 //                {
 //                    console.log(rows[2].doc.workouts[0].startTime);
 //                }
 //                console.log(jsonObj);
-                console.log(rows.length);
                 res.render('index', { title: 'FitnessChallenge', data: rows, length: rows.length});
             }).on('error', function(e) {
                 console.log('problem with request: ' + e.message);

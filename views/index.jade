@@ -23,6 +23,8 @@ block content
              script(src='#{pathToAssets}/assets/js/html5shiv.js')
              script(src='#{pathToAssets}/assets/js/respond.min.js')
          body
+           script(type='text/javascript').
+             var local_data =!{JSON.stringify(data)}
            .navbar.navbar-inverse.navbar-fixed-top
              .container
                .navbar-header
@@ -121,65 +123,56 @@ block content
                                     height: 150px;
                                     text-align: left;
                                     }
-                                  //
-                                     Javascript
-                                  script(type='text/javascript')
-                                    $(function () {
-                                    var workoutsLength = #{data[x].doc.workouts.length};
-                                    for(var i=0; i<workoutsLength; i++) {
-                                    var data = [
-                                    {label: "Ex1", data: #{data[x].doc.workouts[0].exercises[0].reps}},
-                                    {label: "Ex2", data: #{data[x].doc.workouts[0].exercises[1].reps}},
-                                    {label: "Ex3", data: #{data[x].doc.workouts[0].exercises[2].reps}},
-                                    {label: "Ex4", data: #{data[x].doc.workouts[0].exercises[3].reps}},
-                                    {label: "Ex5", data: #{data[x].doc.workouts[0].exercises[4].reps}}
-                                    ];
-                                    }
-                                    var options = {
-                                    series: {
-                                    pie: {show: true}
-                                    }
-                                    };
-                                    $.plot($("#flotcontainer#{x}"), data, options);
+
+                                - if (data[x].doc.workouts)
+                                  script(type='text/javascript').
+                                    $(document).ready(function () {
+                                        var workouts = local_data[#{x}].doc.workouts;
+                                        var workoutsLength = workouts.length;
+                                        var lastWorkout = workouts[workoutsLength-1];
+                                        var exercises = lastWorkout.exercises;
+                                        var exercisesLength = lastWorkout.exercises.length;
+                                        var pieData = [];
+                                        for (var index = 0; index < exercisesLength; index++) {
+                                            var label = exercises[index].name;
+                                            var data = exercises[index].reps;
+                                            pieData.push({label: label, data: data});
+                                        }
+                                        //pieData.push({label: "mock", data:10});
+                                        var options = {
+                                            series: { pie: {show: true} }
+                                        };
+                                        $.plot($("#flotcontainer#{x}"), pieData, options);
                                     });
-                                  //
-                                     HTML
+
                                   #legendPlaceholder
                                   div(id="flotcontainer#{x}")
 
                            td(width='10%')
                                div(id="container#{x}")
-                                   script(defer='defer')
-                                     var jsonObj = [];
-                                     var workoutsLength = #{data[x].doc.workouts.length};
-                                     for(var k=0; k<workoutsLength; k++) {
-                                       var exercisesLength = #{data[x].doc.workouts[0].exercises.length};
-                                       var sum = 0;
-                                       for(var l=0; l<exercisesLength; l++){
-                                       sum += #{data[x].doc.workouts[0].exercises[0].reps};
-                                       }
-                                       jsonObj.push({x: #{data[x].doc.workouts[0].endTime}, y:sum});
-                                     }
-                                     var model = {
-                                     title: '',
-                                     series: [{
-                                     title: 'Score',
-                                     points: jsonObj
-                                     }
-                                     ]
-                                     };
-                                     // view configuration (styling)
-                                     var view = {
-                                     width: 300,
-                                     height: 150
-                                     };
-                                     // line charts are instantiated with a container DOM element,
-                                     // a model, and a view
-                                     var lineChart = new MeteorCharts.Line({
-                                     container: 'container#{x}',
-                                     model: model,
-                                     view: view
-                                     });
+                                   script(type='text/javascript').
+                                    $(document).ready(function() {
+                                         var workoutsChartData = local_data[#{x}].doc.workoutsChartData;
+                                         var model = {
+                                             title: '',
+                                             series: [{
+                                                 title: 'Score',
+                                                 points: workoutsChartData
+                                            }]
+                                         };
+                                         // view configuration (styling)
+                                         var view = {
+                                         width: 300,
+                                         height: 150
+                                         };
+                                         // line charts are instantiated with a container DOM element,
+                                         // a model, and a view
+                                         var lineChart = new MeteorCharts.Line({
+                                             container: 'container#{x}',
+                                             model: model,
+                                             view: view
+                                         });
+                                    });
              hr
              footer
                p &copy; Company 2013
@@ -190,5 +183,12 @@ block content
            //  ==================================================
            //
               Placed at the end of the document so the pages load faster
-           script(src='#{pathToAssets}/assets/js/jquery.js').
-           script(src='#{pathToAssets}/dist/js/bootstrap.min.js').
+
+    script(src='bootstrap.min.js').
+    script(src='http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.7.4.min.js').
+    script(src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.2.1/moment.min.js').
+    script(src='http://d3lp1msu2r81bx.cloudfront.net/mc/js/lib/meteorcharts-v0.0.11.min.js').
+    script(src='http://canvasjs.com/assets/script/canvasjs.min.js').
+    script(src='http://static.pureexample.com/js/flot/excanvas.min.js').
+    script(src='http://static.pureexample.com/js/flot/jquery.flot.min.js').
+    script(src='http://static.pureexample.com/js/flot/jquery.flot.pie.min.js').
